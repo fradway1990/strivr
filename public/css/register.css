@@ -1,0 +1,110 @@
+/*
+   @main blue:#34495D
+   @secondary blue: #2C3D4F
+   @orange: #EE7738
+   @orange2:#F59D2A
+   @light blue:#6695E2
+   @lighter blue: #a5c1ef
+   @gray:#afafaf
+*/
+
+
+@media(min-width:0){
+  body{
+    background-color:#34495D;
+  }
+  #sign-up-head{
+    box-sizing:border-box;
+    max-width:37.5rem;
+    margin:0 auto;
+    width:50%;
+    min-width:300px;
+    text-align:center;
+  }
+  h1{
+    color:#EE7738;
+  }
+  p{
+    color:white;
+    font-size:1rem;
+  }
+  #mock-goal{
+    text-align:center;
+    width:100%;
+    color:#6695E2;
+    font-weight:700;
+    font-size:1.3rem;
+  }
+  form{
+    box-sizing:border-box;
+    background-color:white;
+    padding:1em;
+    margin:0 auto;
+    max-width:37.5rem;
+    width:40%;
+    min-width:300px;
+  }
+  label{
+    display:block;
+    margin-bottom:0.35rem;
+    padding:0;
+  }
+  input{
+    border:none;
+    box-sizing:border-box;
+    padding:0.5em;
+    width:100%;
+    border-radius:0.25rem;
+    border:0.125rem solid #afafaf;
+    margin-bottom:1rem;
+  }
+  #register{
+    width:80%;
+    padding:1rem;
+    border:none;
+    background-color:#34495D;
+    color:white;
+    text-align:center;
+    box-sizing:border-box;
+    margin:0 auto;
+    margin-top:1rem;
+    display:block;
+  }
+  #form-choice{
+    width:100%;
+    margin:0;
+    padding:0;
+    overflow:auto;
+    list-style: none;
+    margin-bottom:1rem;
+  }
+  #form-choice li{
+    padding:0.25rem;
+    box-sizing:border-box;
+    padding:0 1rem 0.25rem 1rem;
+  }
+  #form-choice li{
+    cursor:pointer;
+  }
+  #sign-up-choice{
+    float:left;
+  }
+  #sign-in-choice{
+    float:right;
+  }
+  .selected{
+    border-bottom:0.25rem solid #6695e2;
+  }
+  .favorite-food{
+    display:none;
+  }
+  #mock-goal{
+    height:4rem;
+  }
+  .error{
+    color:red;
+    padding:0;
+    margin-bottom:0.25rem;
+
+  }
+}

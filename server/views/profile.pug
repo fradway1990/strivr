@@ -1,0 +1,96 @@
+extends layout
+block content
+  script.
+    var username = !{JSON.stringify(user.username)};
+    var userId = !{JSON.stringify(user.userId)};
+  .container-fluid
+    .row
+      .col-xs-12.col-sm-3.col-md-2
+        #profile-pic
+        #about-me
+          #about-me-header
+            h2 About Me
+            button#edit-about-me
+              i.fa.fa-pencil(aria-hidden='true')
+          #about-me-text
+          | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc iaculis,
+          | enim eu imperdiet vulputate, ex erat faucibus orci, id condimentum sem
+          | eros sed nulla. Etiam quis accumsan neque. Nulla metus ex, consequat sit
+          | amet rutrum nec, pharetra sit amet erat. Curabitur ac risus luctus, porta.
+      .col-xs-12.col-sm-9.col-md-8
+        .row
+          .col-xs-12
+            #user-info
+              #name-row
+                h1 #{user.username}
+                .at-a-glance.full-nav
+                  ul
+                    li.current-goals.selected.profile-nav
+                      i.fa.fa-star(aria-hidden='true')
+                      span.profile-nav-text
+                        |  Current Goals
+                      span(class='counter')
+                        |  2
+                    li.goal-upcoming.profile-nav
+                      i.fa.fa-list(aria-hidden='true')
+                      span.profile-nav-text
+                        |  Upcoming Goals
+                    li.goal-complete.profile-nav
+                      i.fa.fa-check(aria-hidden='true')
+                      span.profile-nav-text.profile-nav
+                      |  Completed Goals
+                      span(class='counter')
+                        |  100
+                    li.goal-incomplete.profile-nav
+                      i.fa.fa-minus-circle(aria-hidden='true')
+                      span.profile-nav-text
+                        |  Incomplete Goals
+                      span(class='counter')
+                        |  100
+        .at-a-glance.small-nav
+          .row
+            ul.col-xs-12
+              li
+                button.current-goals.selected.profile-nav(type='button')
+                  i.fa.fa-star(aria-hidden='true')
+                  br
+                  .sm-text Current
+              li
+                button.goal-upcoming.profile-nav(type='button')
+                  i.fa.fa-list(aria-hidden='true')
+                  br
+                  .sm-text Upcoming
+              li
+                button.goal-complete.profile-nav(type='button')
+                  i.fa.fa-check(aria-hidden='true')
+                  br
+                  .sm-text Complete
+              li
+                button.goal-incomplete.profile-nav(type='button')
+                  i.fa.fa-minus-circle(aria-hidden='true')
+                  br
+                  .sm-text Incomplete
+
+
+        .row
+          #content-area.col-xs-12
+            //content for current Goals
+            .row
+              each goal in user.goals
+                .col-xs-12.col-md-6
+                  .current-goal
+                    h4 #{goal.goalName}
+                    .goal-info Progress: Day #{goal.daysSinceGoalStart} of 90
+                    .todo-list
+                      .todo-title
+                        h5 Tasks for Today
+                      if(goal.events.length === 0)
+                      .empty-goal No Tasks To Show
+                      each event in goal.events
+                        .todo
+                          .checkbox(data-eventId = ''+ event._id)
+                            //span.check
+                              //.fa.fa-check(aria-hidden='true')
+                          span.todo-text #{event.eventText}
+    script(src='/js/moment.js')
+    script(src='/js/profile.js')

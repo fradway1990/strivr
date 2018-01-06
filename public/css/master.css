@@ -1,0 +1,73 @@
+/*
+   @main blue:#34495D
+   @secondary blue: #2C3D4F
+   @orange: #EE7738
+   @orange2:#F59D2A
+   @light blue:#6695E2
+   @lighter blue: #a5c1ef
+   @gray:#afafaf
+*/
+
+html{
+  font-size:16px;
+  margin:0;
+  padding:0;
+}
+body{
+  font-family: 'Montserrat',Arial,Helvetica sans-serif;
+  min-width:300px;
+  margin:0;
+  padding:0;
+}
+.center{
+  text-align:center;
+}
+.container-fluid{
+  padding-top:6rem;
+}
+.row{
+  margin-left:-1rem;
+  margin-right:-1rem;
+}
+[class*=' col-']{
+  padding-left:1rem;
+  padding-right:1rem;
+}
+
+#nav-container{
+  padding-top:0;
+}
+#top-nav{
+  border:none;
+  background-color:#2C3D4F;
+  z-index:103;
+}
+#toggle-button{
+  border:none;
+  background-color:#2C3D4F;
+}
+#toggle-button:active{
+  border:none;
+  background-color:#2C3D4F;
+}
+
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover{
+  background-color:#6695E2;
+  border:none;
+}
+#logo{
+  color:#EE7738;
+  font-size:1.2rem;
+}
+.button{
+  box-sizing:border-box;
+  padding:1rem;
+  border-radius:20rem;
+  border:none;
+}
+.container-fluid{
+  padding-left:1rem;
+  padding-right:1rem;
+  box-sizing:border-box;
+}

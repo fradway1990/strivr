@@ -1,0 +1,29 @@
+extends layout
+block content
+  div(class='container-fluid',id='planner')
+    div(class='row')
+      div(class='col-xs-12 col-sm-12 col-md-6',id='left-sidebar')
+        div(class='row')
+          div(class='col-xs-12 col-md-12 col-sm-12')
+            div(class='goal-container')
+              input(name='goal-name', class='goal-name',placeholder='Enter a name for your goal')
+        div(class='row')
+          div(id='big-date', class='col-sm-12 col-xs-12 col-md-12')
+            span(class='month-year')
+            br
+            span(class='big-day')
+        div(class='row')
+          div(class='daily-goals col-xs-12 col-sm-12 col-md-12')
+            p Todo for Today
+            ul(class='todo-list')
+      div(class='col-xs-12 col-sm-12 col-md-6')
+        #calendar-container
+          div(id='calendar-wrapper', class='wrapper')
+        button(type='button' id='submit-goal')
+          | Save Goal
+  script(src='/js/moment.js')
+  script(src='/js/eventObject.js')
+  script(src='/js/events.js')
+  script(src='/js/slider.js')
+  script(src='/js/jQuery-slimScroll-1.3.8/jquery.slimscroll.min.js')
+  script(src='/js/script.js')

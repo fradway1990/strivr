@@ -1,0 +1,36 @@
+nav.navbar.navbar-inverse.navbar-fixed-top#top-nav
+  .container-fluid#nav-container
+    .navbar-header
+      if currentUser.id
+        button.navbar-toggle(id='toggle-button' type='button' data-toggle='collapse' data-target='#striv4Nav')
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+      a.navbar-brand#logo(href='/')
+        | Striv4
+    if currentUser.id
+      .collapse.navbar-collapse#striv4Nav
+          ul.nav.navbar-nav.navbar-right#navbar-links
+            li
+              a(href='/user/'+currentUser.id)
+                | Profile
+            li
+              a(href='/timeline')
+                | Timeline
+            li
+              a(href='/messages')
+                | Messages
+            li(class='dropdown')
+              a.dropdown-toggle(data-toggle='dropdown' href='#')
+                i.fa.fa-cog
+                span.nav-text
+                  | Settings
+                span.caret
+                ul.dropdown-menu
+                  li
+                    a(href='/editPlans')
+                      | Edit Plans
+                  li
+                    a(href='/signOut')
+                      i.fa.fa-sign-out
+                      | Sign Out
