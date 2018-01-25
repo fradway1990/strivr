@@ -5,7 +5,9 @@ html{
 }
 
 @media screen and (min-width:0){
-
+  .step{
+    display:inline-block;
+  }
   #planner{
     padding-top:3.125rem
   }
@@ -124,6 +126,7 @@ html{
     position:relative;
   }
   .calendar-card{
+    width:100%;
     display:inline-block;
     font-size:1rem;
     vertical-align:top;

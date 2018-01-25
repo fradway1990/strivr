@@ -19,10 +19,13 @@ module.exports.renderGoalCreate = function(req,res,next){
 
 module.exports.sendCalendar = function(req,res){
   var startDate;
-  if(typeof req.body.startDate !== 'undefined'){
-    startDate = req.body.startDate;
+  if(req.body.year && req.body.month && req.body.day){
+    var year = req.body.year;
+    var month = req.body.month;
+    var day = req.body.day;
+    sendResponseJson(res,200,calendar.renderCalendar(year,month,day));
   }
-  sendResponseJson(res,200,calendar.renderCalendar(startDate));
+
 }
 
 module.exports.createGoal = function(req,res,next){
