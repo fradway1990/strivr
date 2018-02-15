@@ -1,19 +1,27 @@
 'use strict';
-process.env.NODE_ENV = 'development';
+if(process.env.NODE_ENV === 'development'){
+  var Config = require('./config')
+}
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var logger = require('morgan');
+if(process.env.NODE_ENV === 'development'){
+  var logger = require('morgan');
+}
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash');
-var helmet = require('helmet');
 
 
 var app = express();
-app.use(helmet());
 var port = process.env.PORT || 3000;
-mongoose.connect("mongodb://localhost:27017/striv4");
+if(process.env.NODE_ENV === 'development'){
+  var database = Config.DATABASE;
+}else{
+  var database = process.env.DATABASE;
+}
+mongoose.connect(database);
 var db = mongoose.connection;
 
 
@@ -22,7 +30,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 app.use(session({
-  secret: 'striv4 your goals',
+  secret: proscess.env.SECRET||Config.SECRET,
   resave: true,
   saveUninitialized: false,
   store: new MongoStore({
@@ -41,8 +49,9 @@ app.use(function (req, res, next) {
 });
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(logger('dev'));
-
+if(process.env.NODE_ENV === 'development'){
+  app.use(logger('dev'));
+}
 var api = require('./app_api/routes/index');
 var serverRoutes = require('./server/routes/index');
 
