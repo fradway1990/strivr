@@ -22,6 +22,9 @@
     margin:0 auto;
     border-radius:50%;
     border: 0.1875rem solid white;
+    background-image: url('../img/profile-img.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   #about-me{
     background-color:white;
