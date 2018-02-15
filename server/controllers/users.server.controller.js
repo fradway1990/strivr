@@ -101,18 +101,18 @@ module.exports.renderProfile = function(req,res,next){
       if(response.statusCode === 404){
         var error = new Error(response.body.message);
         error.status = 404;
+        error.message = response.body.message;
         next(error);
       }
       if(response.statusCode === 400){
-        var error = new Error(response.body.message);
+        var error = new Error();
         error.status = 400;
+        error.message = response.body.message;
         next(error);
       }
     });
   }else{
-    var error = new Error({'message':'Username not provided'});
-    error.status = 404;
-    next(error);
+    res.redirect('/');
   }
 }
 
