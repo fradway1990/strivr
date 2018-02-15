@@ -147,31 +147,38 @@ module.exports.getGoals = function(req,res,next){
 
 
         var goalArr =JSON.parse(JSON.stringify(goals));
-        function mergeToGoal(count){
-          if(count < 1){
-            return sendResponseJson(res,200,goalArr);
-          }
-          goalArr.forEach(function(goal,i){
+        console.log(goalArr);
+        var promises = goalArr.map(function(goal){
+
+          return new Promise(function(resolve,reject){
             var queryParams = {
               parentId: goal._id,
               date: {$gte: new Date(earliest), $lte:new Date(latest)},
             }
+
             if(typeof completed === "boolean"){
               queryParams.completed = completed;
             }
-            Task.find(queryParams).limit(limit).exec(function(err,Task){
+
+            Task.find(queryParams).limit(limit).exec(function(err,task){
               if(err){
+                reject(err);
               }else{
-                var TaskArr =JSON.parse(JSON.stringify(Task));
-                TaskArr = TaskArr.map(function(Task){return Task});
-                goal.tasks = TaskArr;
-                goal.daysSinceGoalStart = moment().utc().startOf('day').diff(moment(goal.goalStart).utc().startOf('day'),'days')+1;
-                mergeToGoal(count - 1);
+                var taskArr =JSON.parse(JSON.stringify(task));
+                goal.tasks = taskArr;
+                resolve();
               }
             });
           });
-        }
-        mergeToGoal(goalArr.length);
+
+        });
+
+        Promise.all(promises).then(function(){
+          return sendResponseJson(res,200,goalArr);
+        }).catch(function(err){
+          return sendResponseJson(res,500,err);
+        });
+
 
       }
 
