@@ -1,6 +1,9 @@
 'use strict';
 if(process.env.NODE_ENV === 'development'){
-  var Config = require('./config')
+  var Config = require('./config');
+  var secret = Config.SECRET;
+}else{
+  var secret = process.env.SECRET;
 }
 
 var express = require('express');
@@ -30,7 +33,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 app.use(session({
-  secret: proscess.env.SECRET||Config.SECRET,
+  secret: secret,
   resave: true,
   saveUninitialized: false,
   store: new MongoStore({
