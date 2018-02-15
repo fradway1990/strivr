@@ -12,7 +12,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top#top-nav
       .collapse.navbar-collapse#striv4Nav
           ul.nav.navbar-nav.navbar-right#navbar-links
             li
-              a(href='/user/'+currentUser.id)
+              a(href='/user')
                 | Profile
             li(class='dropdown')
               a.dropdown-toggle(data-toggle='dropdown' href='#')
@@ -22,8 +22,8 @@ nav.navbar.navbar-inverse.navbar-fixed-top#top-nav
                 span.caret
                 ul.dropdown-menu
                   li
-                    a(href='/editPlans')
-                      | Edit Plans
+                    a(href='/goal/create')
+                      | Create Goal
                   li
                     a(href='/signOut')
                       i.fa.fa-sign-out

@@ -23,7 +23,6 @@ module.exports.renderSignUp = function(req,res,next){
 }
 
 module.exports.createUser = function(req,res,next){
-  console.log(req.body)
   var username = req.body.username;
   var password = req.body.password;
   var useremail = req.body.useremail;
@@ -45,28 +44,25 @@ module.exports.createUser = function(req,res,next){
       return next(error);
     }
     if(response.statusCode === 200){
-      console.log(response.body)
       req.session.userId = response.body._id;
       req.session.username = response.body.username;
-      return sendResponseJson(res,200,{redirect:'/profile/'+req.session.username});
+      return sendResponseJson(res,200,{redirect:'/user'});
     }
     if(response.statusCode === 400){
-      console.log(response.body);
       return sendResponseJson(res,400,response.body);
     }
   });
 }
 
 module.exports.renderProfile = function(req,res,next){
-  if(req.params && req.params.userId){
-    var path = '/api/users/'+ req.params.userId;
+  if(req.session && req.session.userId){
+    var path = '/api/users/'+ req.session.userId;
     var requestOptions ={
       url:apiOptions.server + path,
       method:'GET',
       json:{}
     }
     request(requestOptions,function(error,response,body){
-      console.log(response.body);
       if(error){
         return next(error);
       }
@@ -77,7 +73,7 @@ module.exports.renderProfile = function(req,res,next){
           page:'profile',
           user:{
             username:response.body.username,
-            userId:response.body._id,
+            userId:response.body._id
           }
         };
         //get todays Goals
@@ -139,13 +135,11 @@ module.exports.login = function(req,res,next){
       return next(error);
     }
     if(response.statusCode === 401){
-      console.log('errorRes:'+response);
       return sendResponseJson(res,401,response.body.message);
     }
-    console.log(response.body);
     req.session.userId = response.body._id;
     req.session.username = response.body.username;
-    return sendResponseJson(res,200,{redirect:'/user/'+req.session.userId});
+    return sendResponseJson(res,200,{});
   });
 }
 

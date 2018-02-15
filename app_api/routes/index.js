@@ -12,6 +12,6 @@ router.get('/users/auth/login',users.authenticateUser);
 //goals routes
 router.post('/goals/:userId',goals.createGoal);
 router.get('/goals/:userId',goals.getGoals);
-router.put('/goals/:userId/:eventId',goals.completeGoal);
+router.put('/goals/:userId/:taskId',goals.completeGoal);
 
 module.exports = router;

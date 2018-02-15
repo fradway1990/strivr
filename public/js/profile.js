@@ -46,7 +46,7 @@
       }).appendTo(goalRow);
       var goalInfo = $('<div></div>',{
         'class': 'current-goal',
-        'html':"<h4>"+goal.goalName+"</h4><div class='goal-info'>Progress: Day "+goal.daysSinceGoalStart+" of 90</div>"
+        'html':"<h4>"+goal.goalName+"</h4>"
       }).appendTo(goalCol);
       var todoList = $('<div></div>',{
         'class':'todo-list'
@@ -73,7 +73,7 @@
         html: taskStatement
       }).appendTo(todoList);
 
-      for(var y = 0; y < goal.events.length;y++){
+      for(var y = 0; y < goal.tasks.length;y++){
         var todo = $('<div></div>',{
           'class':'todo',
 
@@ -82,18 +82,18 @@
         if(isFor !== 'upcoming' && isFor !== 'completed'){
           var checkbox = $('<div></div>',{
             'class':'checkbox',
-            'data-eventId':goal.events[y]._id
+            'data-taskId':goal.tasks[y]._id
           }).appendTo(todo);
         }
 
         var todoText = $('<span></span>',{
-          text:goal.events[y].eventText
+          text:goal.tasks[y].taskText
         }).appendTo(todo);
 
         if(isFor !== 'current'){
           var date = $('<div></div>',{
             'class':'due-date',
-            text:'Due By: '+ moment(goal.events[y].date).format('MMMM DD YYYY')
+            text:'Due By: '+ moment(goal.tasks[y].date).format('MMMM DD YYYY')
           }).appendTo(todo);
 
         }
@@ -171,10 +171,10 @@
   });
 
   $('#content-area').on('click','.checkbox',function(){
-      var eventId = $(this).attr('data-eventId');
+      var taskId = $(this).attr('data-taskId');
       if($(this).not().has('fa-check')){
         var _this = $(this);
-        completeGoal(eventId,function(status){
+        completeGoal(taskId,function(status){
           if(status ==='success'){
             var check = $('<span class="fa fa-check"></span>').appendTo(_this);
             setTimeout(function(){

@@ -14,13 +14,14 @@ block content
             span(class='big-day')
         div(class='row')
           div(class='daily-goals col-xs-12 col-sm-12 col-md-12')
-            p Todo for Today
+            p Tasks for Today
             ul(class='todo-list')
-      div(class='col-xs-12 col-sm-12 col-md-6')
+      div(class='col-xs-12 col-sm-12 col-md-6' id='right-side')
         #calendar-container
         button(type='button' id='submit-goal')
           | Save Goal
   script(src='/js/moment.js')
   script(src='/js/jQuery-slimScroll-1.3.8/jquery.slimscroll.min.js')
   script(src='/js/slider/slider.js')
-  script(src='/js/createGoal/calendar.js')
+  script(src='/js/goal/goal.js')
+  script(src='/js/goal/calendar.js')

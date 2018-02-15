@@ -42,6 +42,7 @@ module.exports.createGoal = function(req,res,next){
     if(error){
       return next(error);
     }
+    console.log(body);
     if(response.statusCode === 200){
       return sendResponseJson(res,200,{
         goalId:response.body._id,

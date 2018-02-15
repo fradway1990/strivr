@@ -3,8 +3,8 @@ var mongoose = require('mongoose');
 var moment = require('moment');
 require('../models/schemas/goalSchema');
 require('../models/schemas/userSchema');
-require('../models/schemas/eventSchema');
-var Evt = mongoose.model('Event');
+require('../models/schemas/taskSchema');
+var Task = mongoose.model('Task');
 var Goal = mongoose.model('Goal');
 var User = mongoose.model('User');
 
@@ -25,65 +25,60 @@ module.exports.createGoal = function(req,res,next){
   if(req.params && req.params.userId){
       var goalBody = req.body.goal;
       var userId = req.params.userId;
-      if(typeof goalBody.events === 'string'){
-        var events = JSON.parse(goalBody.events);
-        goalBody.events = events;
+      if(typeof goalBody.tasks === 'string'){
+        var tasks = JSON.parse(goalBody.tasks);
+        goalBody.tasks = tasks;
       }
 
       //first validate goal
       Goal.validateGoal(goalBody,function(errorObject,isValid,goal){
         if(!isValid){
-          console.log('not valid')
-          return next(errorObject);
+          return sendResponseJson(res,400,errorObject);
         }
-        console.log('is valid');
         var goalId = mongoose.Types.ObjectId();
-        var goalStart = moment.utc().set({hour:0,minute:0,second:0,millisecond:0});
-        var newGoal = new Goal({
+        var goalStart = moment.utc().startOf('day');
+        var goalData = {
           _id: goalId,
           goalName: goal.goalName,
           createdOn:goalStart,
           startDate:goalStart,
           createdBy:userId,
-          events:[]
-        });
-        for(var x = 0; x < goal.events.length; x++){
-          var siblingId = mongoose.Types.ObjectId();
-          for(var y = 0; y < goal.events[x].date.length;y++){
-            var evtId = mongoose.Types.ObjectId();
-            var evt = new Evt({
-              _id: evtId,
-              eventText: goal.events[x].eventText,
-              eventType: goal.events[x].eventType,
-              date:goal.events[x].date[y],
-              eventLength: goal.events[x].eventLength,
-              siblingId: siblingId,
-              parentId: goalId
-            });
-            newGoal.events.push(evtId);
-            Evt.create(evt,function(err,doc){
-              if(err){
-                sendResponseJson(res,400,err);
-              }
-            });
-          }
+          tasks:[]
         }
 
+
+        for(var x = 0; x < goal.tasks.length; x++){
+          var task = goal.tasks[x];
+          var taskId = mongoose.Types.ObjectId();
+          var newTask = new Task({
+            date: task.date,
+            completed:false,
+            taskText:task.taskText,
+            parentId: goalId,
+            _id:taskId
+          });
+          goalData.tasks.push(taskId);
+          Task.create(newTask,function(err,doc){
+            if(err){
+              return sendResponseJson(res,400,err);
+            }else{
+
+            }
+          });
+        }
+        var newGoal = new Goal(goalData);
         Goal.create(newGoal,function(err,doc){
           if(err){
-            console.log('Error encountered making goal');
             sendResponseJson(res,400,err);
           }else{
             User.findOneAndUpdate({_id:userId},{$push: {goals: doc._id}},{upsert:true},function(err,user){
               if(err){
-                console.log(err);
-                sendResponseJson(res,400,err);
+                return sendResponseJson(res,400,err);
               }else{
-                console.log('Goal Added to user');
+                return sendResponseJson(res,200,doc);
               }
             });
-            console.log('Goal Created');
-            sendResponseJson(res,200,doc);
+
           }
         });
 
@@ -142,7 +137,6 @@ module.exports.getGoals = function(req,res,next){
       }else{
         completed = 'null';
       }
-      console.log(completed)
     var userId = req.params.userId;
 
 
@@ -157,8 +151,6 @@ module.exports.getGoals = function(req,res,next){
           if(count < 1){
             return sendResponseJson(res,200,goalArr);
           }
-          console.log(earliest);
-          console.log(latest);
           goalArr.forEach(function(goal,i){
             var queryParams = {
               parentId: goal._id,
@@ -167,13 +159,12 @@ module.exports.getGoals = function(req,res,next){
             if(typeof completed === "boolean"){
               queryParams.completed = completed;
             }
-            Evt.find(queryParams).limit(limit).exec(function(err,evt){
+            Task.find(queryParams).limit(limit).exec(function(err,Task){
               if(err){
-                console.log(err);
               }else{
-                var evtArr =JSON.parse(JSON.stringify(evt));
-                evtArr = evtArr.map(function(evt){return evt});
-                goal.events = evtArr;
+                var TaskArr =JSON.parse(JSON.stringify(Task));
+                TaskArr = TaskArr.map(function(Task){return Task});
+                goal.tasks = TaskArr;
                 goal.daysSinceGoalStart = moment().utc().startOf('day').diff(moment(goal.goalStart).utc().startOf('day'),'days')+1;
                 mergeToGoal(count - 1);
               }
@@ -190,28 +181,25 @@ module.exports.getGoals = function(req,res,next){
 }
 
 module.exports.completeGoal = function(req,res){
-  if(req.params && req.params.userId && req.params.eventId){
-    Evt.find({_id: req.params.eventId,completed:false},function(err,evt){
+  if(req.params && req.params.userId && req.params.taskId){
+    Task.find({_id: req.params.taskId,completed:false},function(err,task){
       if(err){
-        console.log('couldnt find #1 event');
         return sendResponseJson(res,404,err);
       }
-      //find parent and determin if user id matches
-      Goal.find({createdBy:req.params.userId,events:evt._id}).exec(function(err,goal){
+      //find parent and determine if user id matches
+      Goal.find({createdBy:req.params.userId,tasks:task._id}).exec(function(err,goal){
         if(err){
-          console.log('couldnt find goal');
           return sendResponseJson(res,404,err);
         }
-        Evt.update({_id: req.params.eventId,completed:false},{completed:true},{ upsert: true },function(err,evt){
+        Task.update({_id: req.params.taskId,completed:false},{completed:true},{ upsert: true },function(err,Task){
           if(err){
-            console.log('couldnt delete event');
             return sendResponseJson(res,404,err);
           }
-          return sendResponseJson(res,200,evt);
+          return sendResponseJson(res,200,Task);
         });
       });
     })
   }else{
-    sendResponseJson(res,400,{message: 'Please include event id and user id'});
+    sendResponseJson(res,400,{message: 'Please include task id and user id'});
   }
 }

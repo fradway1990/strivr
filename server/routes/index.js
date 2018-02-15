@@ -10,7 +10,7 @@ router.get('/',userMid.loggedOut,serverUserController.renderSignUp);
 router.post('/signUp',serverUserController.createUser);
 router.post('/signIn',userMid.loggedOut,serverUserController.login);
 router.get('/signOut',userMid.requiresLogin,serverUserController.logout);
-router.get('/user/:userId',serverUserController.renderProfile);
+router.get('/user',serverUserController.renderProfile);
 
 //goal routes
 router.get('/goal/create',userMid.requiresLogin,serverGoalController.renderGoalCreate);

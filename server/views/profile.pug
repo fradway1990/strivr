@@ -28,25 +28,19 @@ block content
                     li.current-goals.selected.profile-nav
                       i.fa.fa-star(aria-hidden='true')
                       span.profile-nav-text
-                        |  Current Goals
-                      span(class='counter')
-                        |  2
+                        |  Current Tasks
                     li.goal-upcoming.profile-nav
                       i.fa.fa-list(aria-hidden='true')
                       span.profile-nav-text
-                        |  Upcoming Goals
+                        |  Upcoming Tasks
                     li.goal-complete.profile-nav
                       i.fa.fa-check(aria-hidden='true')
                       span.profile-nav-text.profile-nav
-                      |  Completed Goals
-                      span(class='counter')
-                        |  100
+                      |  Completed Tasks
                     li.goal-incomplete.profile-nav
                       i.fa.fa-minus-circle(aria-hidden='true')
                       span.profile-nav-text
-                        |  Incomplete Goals
-                      span(class='counter')
-                        |  100
+                        |  Incomplete Tasks
         .at-a-glance.small-nav
           .row
             ul.col-xs-12
@@ -80,17 +74,17 @@ block content
                 .col-xs-12.col-md-6
                   .current-goal
                     h4 #{goal.goalName}
-                    .goal-info Progress: Day #{goal.daysSinceGoalStart} of 90
+                    .goal-info 
                     .todo-list
                       .todo-title
                         h5 Tasks for Today
-                      if(goal.events.length === 0)
-                      .empty-goal No Tasks To Show
-                      each event in goal.events
+                      if(goal.tasks.length === 0)
+                        .empty-goal No Tasks To Show
+                      each task in goal.tasks
                         .todo
-                          .checkbox(data-eventId = ''+ event._id)
+                          .checkbox(data-taskId = ''+ task._id)
                             //span.check
                               //.fa.fa-check(aria-hidden='true')
-                          span.todo-text #{event.eventText}
+                          span.todo-text #{task.taskText}
     script(src='/js/moment.js')
     script(src='/js/profile.js')

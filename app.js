@@ -56,10 +56,6 @@ app.use('/api',api);
 
 
 
-//custom error handler
-app.use(function(error, req, res, next) {
-  res.status(error.status || 500);
-  res.send('Error: '+error.message);
-});
+
 app.listen(port);
 console.log('Listening on port: '+port);
