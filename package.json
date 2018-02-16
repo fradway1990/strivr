@@ -1,7 +1,7 @@
-"engines": {
+{
+  "engines": {
     "node": "8.9.3"
   },
-{
   "name": "striv4",
   "version": "0.0.1",
   "description": "",
