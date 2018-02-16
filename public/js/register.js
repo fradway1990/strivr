@@ -225,18 +225,20 @@
     var validPass = checkPassword();
     var validConfirm = checkPwdConfirm()
     if(validUsername && validEmail && validPass && validConfirm){
+      var userInfo = {
+        "username":$('#username').val(),
+        "useremail":$('#useremail').val(),
+        "password":$('#password').val(),
+        "passwordconfirmation":$('#password-confirm').val(),
+        favoriteFood:$('#favoriteFood').val()
+      }
       //$(registerForm).submit();
       $.ajax({
         url:'/signUp',
         dataType:'json',
         method:'POST',
-        data:{
-          username:$('#username').val(),
-          useremail:$('#useremail').val(),
-          password:$('#password').val(),
-          passwordconfirmation:$('#password-confirm').val(),
-          favoriteFood:$('#favoriteFood').val()
-        },
+        contentType: 'application/json',
+        data:JSON.stringify(userInfo),
         success:function(data,status,jqXHR){
           window.location.href= data.redirect;
           return false;
@@ -267,15 +269,17 @@
     var validUsername = checkUsername();
     var validPass = checkPassword();
     if(validUsername && validPass){
+      var userInfo = {
+        username:$('#username').val(),
+        password:$('#password').val(),
+        favoriteFood:$('#favoriteFood').val()
+      };
     $.ajax({
       url:'/signIn',
       method:'POST',
       dataType:'json',
-      data:{
-        username:$('#username').val(),
-        password:$('#password').val(),
-        favoriteFood:$('#favoriteFood').val()
-      },
+      contentType: 'application/json',
+      data:JSON.stringify(userInfo),
       success:function(data,status,jqXHR){
         window.location.href= data.redirect;
         return false;
