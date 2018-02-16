@@ -25,7 +25,8 @@ if (process.env.NODE_ENV === 'production') {
 }else{
   var dbURI = config.DATABASE;
 }
-
+console.log('env: '+process.env.NODE_ENV);
+console.log('uri: '+process.env.MONGOLAB_URI);
 mongoose.connect(dbURI);
 var db = mongoose.connection;
 
