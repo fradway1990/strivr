@@ -20,11 +20,7 @@ var flash = require('connect-flash');
 
 var app = express();
 var port = process.env.PORT || 3000;
-if(process.env.NODE_ENV === 'development'){
-  var database = Config.DATABASE;
-}else{
-  var database = process.env.DATABASE;
-}
+var database = process.env.DATABASE || config.DATABASE;
 mongoose.connect(database);
 var db = mongoose.connection;
 
