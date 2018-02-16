@@ -1,5 +1,4 @@
 'use strict';
-//process.env.NODE_ENV = 'development';
 if(process.env.NODE_ENV === 'development'){
   var Config = require('./config');
   var secret = Config.SECRET;
@@ -20,7 +19,7 @@ var flash = require('connect-flash');
 
 var app = express();
 var port = process.env.PORT || 3000;
-var database = process.env.DATABASE || config.DATABASE;
+var database = "mongodb://fradway:col215fra@ds139138.mlab.com:39138/striv4" || config.DATABASE;
 mongoose.connect(database);
 var db = mongoose.connection;
 
