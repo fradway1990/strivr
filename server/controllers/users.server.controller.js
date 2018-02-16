@@ -4,7 +4,7 @@ var request = require('request');
 var moment = require('moment');
 var Goals = require('./includes/getGoals');
 var apiOptions = {
-  server : "http://localhost:3000"
+  server : process.env.PRODUCTION_URI || "http://localhost:3000"
 };
 
 var sendResponseJson = function(res,status,content){

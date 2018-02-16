@@ -3,7 +3,7 @@ var request = require('request');
 var calendar = require('./renderCalendar');
 
 var apiOptions = {
-  server : "http://localhost:3000"
+  server : process.env.PRODUCTION_URI || "http://localhost:3000"
 };
 var sendResponseJson = function(res,status,content){
   res.status(status);

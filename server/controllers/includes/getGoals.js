@@ -3,7 +3,7 @@ var request = require('request');
 module.exports.getGoals = function(object,callback){
 
   var apiOptions = {
-    server : "http://localhost:3000"
+    server : process.env.PRODUCTION_URI || "http://localhost:3000"
   };
 
   var userId = object.userId;
