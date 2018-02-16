@@ -244,7 +244,7 @@
           return false;
         },
         error:function(jqXHR,status,error){
-          var errorResponse= JSON.parse(jqXHR.responseText);
+          var errorResponse= jqXHR.responseText;
           if(errorResponse.all){
             $('#all-error').text(errorResponse.all)
           }
@@ -286,7 +286,7 @@
       },
       error:function(jqXHR,status,error){
         console.log(jqXHR);
-        var errorResponse= JSON.parse(jqXHR.responseText);
+        var errorResponse= jqXHR.responseText;
         $('#all-error').text(errorResponse);
         return false;
       }
