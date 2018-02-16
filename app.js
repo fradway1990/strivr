@@ -19,8 +19,14 @@ var flash = require('connect-flash');
 
 var app = express();
 var port = process.env.PORT || 3000;
-var database = "mongodb://fradway:col215fra@ds139138.mlab.com:39138/striv4" || config.DATABASE;
-mongoose.connect(database);
+
+if (process.env.NODE_ENV === 'production') {
+  var dbURI = process.env.MONGOLAB_URI;
+}else{
+  var dbURI = config.DATABASE;
+}
+
+mongoose.connect(dbURI);
 var db = mongoose.connection;
 
 
