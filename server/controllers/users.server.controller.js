@@ -139,7 +139,7 @@ module.exports.login = function(req,res,next){
     }
     req.session.userId = response.body._id;
     req.session.username = response.body.username;
-    return sendResponseJson(res,200,{});
+    return sendResponseJson(res,200,{redirect:'/user'});
   });
 }
 
